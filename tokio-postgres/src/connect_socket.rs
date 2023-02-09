@@ -1,7 +1,7 @@
 use crate::config::Host;
 use crate::keepalive::KeepaliveConfig;
 use crate::{Error, Socket};
-use socket2::{SockRef, TcpKeepalive};
+// use socket2::{SockRef, TcpKeepalive};
 use std::future::Future;
 use std::io;
 use std::time::Duration;
@@ -14,7 +14,7 @@ pub(crate) async fn connect_socket(
     host: &Host,
     port: u16,
     connect_timeout: Option<Duration>,
-    keepalive_config: Option<&KeepaliveConfig>,
+    _keepalive_config: Option<&KeepaliveConfig>,
 ) -> Result<Socket, Error> {
     match host {
         Host::Tcp(host) => {
@@ -35,11 +35,11 @@ pub(crate) async fn connect_socket(
                     };
 
                 stream.set_nodelay(true).map_err(Error::connect)?;
-                if let Some(keepalive_config) = keepalive_config {
-                    SockRef::from(&stream)
-                        .set_tcp_keepalive(&TcpKeepalive::from(keepalive_config))
-                        .map_err(Error::connect)?;
-                }
+                // if let Some(keepalive_config) = keepalive_config {
+                //     SockRef::from(&stream)
+                //         .set_tcp_keepalive(&TcpKeepalive::from(keepalive_config))
+                //         .map_err(Error::connect)?;
+                // }
 
                 return Ok(Socket::new_tcp(stream));
             }

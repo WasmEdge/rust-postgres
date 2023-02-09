@@ -1,17 +1,19 @@
 [package]
-name = "tokio-postgres"
+name = "tokio-postgres_wasi"
 version = "0.7.7"
 authors = ["Steven Fackler <sfackler@gmail.com>"]
 edition = "2018"
 license = "MIT/Apache-2.0"
 description = "A native, asynchronous PostgreSQL client"
-repository = "https://github.com/sfackler/rust-postgres"
+repository = "https://github.com/WasmEdge/rust-postgres"
 readme = "../README.md"
 keywords = ["database", "postgres", "postgresql", "sql", "async"]
 categories = ["database"]
 
 [lib]
 test = false
+name = "tokio_postgres"
+path = "src/lib.rs"
 
 [[bench]]
 name = "bench"
@@ -25,7 +27,7 @@ circle-ci = { repository = "sfackler/rust-postgres" }
 
 [features]
 default = ["runtime"]
-runtime = ["tokio/net", "tokio/time"]
+runtime = ["tokio_wasi/net", "tokio_wasi/time"]
 
 array-impls = ["postgres-types/array-impls"]
 with-bit-vec-0_6 = ["postgres-types/with-bit-vec-0_6"]
@@ -53,21 +55,20 @@ parking_lot = "0.12"
 percent-encoding = "2.0"
 pin-project-lite = "0.2"
 phf = "0.11"
-postgres-protocol = { version = "0.6.4", path = "../postgres-protocol" }
-postgres-types = { version = "0.2.4", path = "../postgres-types" }
-socket2 = "0.4"
-tokio = { version = "1.0", features = ["io-util"] }
-tokio-util = { version = "0.7", features = ["codec"] }
+postgres-protocol = { version = "0.6.4"}
+postgres-types = { version = "0.2.4"}
+# socket2 = "0.4"
+tokio_wasi = { version = "1", features = ["rt", "io-util"] }
+tokio-util_wasi = { version = "0.7", features = ["codec"] }
 
 [dev-dependencies]
 futures-executor = "0.3"
 criterion = "0.4"
 env_logger = "0.10"
-tokio = { version = "1.0", features = [
+tokio_wasi = { version = "1", features = [
     "macros",
     "net",
     "rt",
-    "rt-multi-thread",
     "time",
 ] }
 
